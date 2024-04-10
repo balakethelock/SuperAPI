@@ -1,0 +1,6 @@
+## Interface: 11200
+## Title: SuperAPI |cFFFF8080-balake-|r
+## Notes: the companion compatibility addon to the mod of the same name.
+## Author: balake
+
+SuperAPI.xml
