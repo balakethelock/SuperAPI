@@ -113,19 +113,16 @@ end
 
 -- hooking bags item button frames to show uses count
 function SUPERAPIHOOK_SetItemButtonCount(button, count)
-	if not button or not count then
-		return SUPERAPIHOOK_SetItemButtonCountOriginal(button, count)
+	count = type(count) == "number" and count or 0
+	SUPERAPIHOOK_SetItemButtonCountOriginal(button, math.abs(count))
+	if not button then
+		return
 	end
 	if (count < 0) then
-		if ( count < -999 ) then
-			count = "*";
-		end
-		getglobal(button:GetName().."Count"):SetText(-count);
-		getglobal(button:GetName().."Count"):Show();
-		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormalYellow);
+		button.count = 0
+		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormalYellow)
 	else
-		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormal);
-		SUPERAPIHOOK_SetItemButtonCountOriginal(button, count)
+		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormal)
 	end
 end
 
