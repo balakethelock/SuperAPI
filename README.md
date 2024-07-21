@@ -1,11 +1,18 @@
 ### Optional addon. It is recommended for addon makers to read this to get a gift of some of the mod's features
 
-What it does:
-- Makes holding shift turn on autoloot (The mod disables that and adds a command to toggle on/off autoloot. This addon types that command for you every time you hold shift to regain that functionality. You can always go into the addon's files & delete this feature and do your autolooting however you want)
-- Add "mouseover" support to all default blizzard unitframes
-- Show item charges in bag
-- Shift click a spell in your spellbook to link it to chat
-- Add chat command to toggle showing unit names or GUIDs in combat log
+### Settings
+Right click the minimap icon to choose persistent options for:
+- Autoloot
+- Clickthrough
+- GUID in combat log/events
+
+**NOTE: If using Vanilla Tweaks quickloot all of the Autoloot options will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc).**
+
+### Other features
+- Adds "mouseover" support to all default blizzard unitframes
+- Shows item charges in bag
+- Allows Shift clicking a spell in your spellbook to link it to chat
+- Adds chat command to toggle showing unit names or GUIDs in combat log
   
 ## Modules:
-https://github.com/balakethelock/SuperAPI_Castlib
+https://github.com/balakethelock/SuperAPI_Castlib provides improved castbars, alternatively the latest version of pfui/shaguplates now do the same
