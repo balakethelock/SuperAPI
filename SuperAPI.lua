@@ -27,10 +27,9 @@ function SuperAPI:OnEnable()
 	UnitFrame_OnEnter = SuperAPI.UnitFrame_OnEnter
 	UnitFrame_OnLeave = SuperAPI.UnitFrame_OnLeave
 
-	this:RegisterEvent("PLAYER_ENTERING_WORLD")
-	this:RegisterEvent("BAG_UPDATE")
-	this:RegisterEvent("BAG_UPDATE_COOLDOWN")
-	this:SetScript("OnEvent", SuperAPI.OnEvent)
+	SuperAPI.frame:RegisterEvent("BAG_UPDATE")
+	SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	SuperAPI.frame:SetScript("OnEvent", SuperAPI.OnEvent)
 
 	-- this chatcommand is empty. It is essential for showing tooltips of macros
 	-- the format for showing a tooltip on a macro is EXACTLY this: /tooltip spell:spellid and then skip line
