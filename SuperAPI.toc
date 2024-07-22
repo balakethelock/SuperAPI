@@ -2,5 +2,17 @@
 ## Title: SuperAPI |cFFFF8080-balake-|r
 ## Notes: the companion compatibility addon to the mod of the same name.
 ## Author: balake
+## SavedVariablesPerCharacter: SuperAPIDB
+## X-Embeds: Ace2, FuBarPlugin-2.0, CompostLib, DewDropLib, TabletLib
 
-SuperAPI.xml
+Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
+Libs\Dewdrop\Dewdrop-2.0.lua
+Libs\Tablet\Tablet-2.0.lua
+Libs\FuBarPlugin\FuBarPlugin-2.0.lua
+
+SuperAPI.lua
+SuperAPIOptions.lua

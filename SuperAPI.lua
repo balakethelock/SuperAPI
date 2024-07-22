@@ -1,17 +1,15 @@
-local SUPERAPIHOOK_SetItemRefOriginal = SetItemRef
-local SUPERAPIHOOK_SpellButton_OnClickOriginal = SpellButton_OnClick
-local SUPERAPIHOOK_SetItemButtonCountOriginal = SetItemButtonCount
-local SUPERAPIHOOK_SetActionOriginal = GameTooltip.SetAction
-local SUPERAPIHOOK_UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
-local SUPERAPIHOOK_UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
+-- No superwow, no superapi
+if not SetAutoloot then
+	return
+end
 
 SUPERAPI_ContainerItemsTable = {}
 
-function SuperAPI_Load()
+SuperAPI = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceDebug-2.0", "AceModuleCore-2.0", "AceConsole-2.0", "AceDB-2.0", "AceHook-2.1")
+SuperAPI:RegisterDB("SuperAPIDB")
+SuperAPI.frame = CreateFrame("Frame", "SuperAPI", UIParent)
 
-	-- if client was not launched with the mod, shutdown
-	if not SetAutoloot then this:SetScript("OnUpdate", nil) return end
-	
+function SuperAPI:OnEnable()
 	-- Let macro frame allow 511 characters
 	MacroFrame_LoadUI();
 	MacroFrameText:SetMaxLetters(511);
@@ -20,63 +18,53 @@ function SuperAPI_Load()
 	-- Change chat bubbles options name
 	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = "Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads.";
 	PARTY_CHAT_BUBBLES_TEXT = "Show Whisper and Group Chat Bubbles";
-	
-	
-	SetItemRef = SUPERAPIHOOK_SetItemRef
-	SpellButton_OnClick = SUPERAPIHOOK_SpellButton_OnClick
-	SetItemButtonCount = SUPERAPIHOOK_SetItemButtonCount
-	GameTooltip.SetAction = SUPERAPIHOOK_SetAction
-	UnitFrame_OnEnter = SUPERAPIHOOK_UnitFrame_OnEnter
-	UnitFrame_OnLeave = SUPERAPIHOOK_UnitFrame_OnLeave
-	
-	this:RegisterEvent("PLAYER_ENTERING_WORLD")
-	this:RegisterEvent("BAG_UPDATE")
-	this:RegisterEvent("BAG_UPDATE_COOLDOWN")
-	this:SetScript("OnEvent", SuperAPI_OnEvent)
+
+	-- activate hooks
+	SetItemRef = SuperAPI.SetItemRef
+	SpellButton_OnClick = SuperAPI.SpellButton_OnClick
+	SetItemButtonCount = SuperAPI.SetItemButtonCount
+	GameTooltip.SetAction = SuperAPI.SetAction
+	UnitFrame_OnEnter = SuperAPI.UnitFrame_OnEnter
+	UnitFrame_OnLeave = SuperAPI.UnitFrame_OnLeave
+
+	SuperAPI.frame:RegisterEvent("BAG_UPDATE")
+	SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	SuperAPI.frame:SetScript("OnEvent", SuperAPI.OnEvent)
 
 	-- this chatcommand is empty. It is essential for showing tooltips of macros
 	-- the format for showing a tooltip on a macro is EXACTLY this: /tooltip spell:spellid and then skip line
 	SLASH_MACROTOOLTIP1 = "/tooltip"
-	SlashCmdList["MACROTOOLTIP"] = function(cmd) end
-
+	SlashCmdList["MACROTOOLTIP"] = function(cmd)
+	end
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options.")
 end
 
-function SuperAPI_Update(elapsed)
-	IfShiftAutoloot()
-end
-
-function SuperAPI_OnEvent()
+function SuperAPI:OnEvent()
 	if (event == "BAG_UPDATE_COOLDOWN" or event == "BAG_UPDATE") then
 		SUPERAPI_ContainerItemsTable = {}
 		for ibag = 0, 4 do
 			for islot = 1, GetContainerNumSlots(ibag) do
 				local bagitemlink = GetContainerItemLink(ibag, islot)
 				if bagitemlink then
-					local _,_,bagitemID = strfind(bagitemlink, "item:(%d+)")
+					local _, _, bagitemID = strfind(bagitemlink, "item:(%d+)")
 					bagitemID = tonumber(bagitemID)
-					SUPERAPI_ContainerItemsTable[bagitemID] = { bag = ibag ; slot = islot}
+					SUPERAPI_ContainerItemsTable[bagitemID] = { bag = ibag; slot = islot }
 				end
 			end
 		end
 	end
 end
 
--- Runs on update to get back old functionality of autoloot on shift. You can hook this away into an empty function to control Autoloot however you want.
-function IfShiftAutoloot()
-	if IsShiftKeyDown() then 
-		SetAutoloot(1)
-	else
-		SetAutoloot(0)
-	end
-end
-
-
 -- Function to toggle raw combat log mode (Print unit guid instead of unit name in combat log)
 -- the actual function is LoggingCombat("RAW", toggle), this is just a helper function to simply it. Note LoggingCombat(toggle) is still used the old way to turn on writing into text file.
-function CombatLogGUID(on)
+function SuperAPI:CombatLogGUID(on)
 	local info = ChatTypeInfo["SYSTEM"];
-	if on then LoggingCombat("RAW", on) else LoggingCombat("RAW", LoggingCombat("RAW") == 0) end
-	
+	if on then
+		LoggingCombat("RAW", on)
+	else
+		LoggingCombat("RAW", LoggingCombat("RAW") == 0)
+	end
+
 	if LoggingCombat("RAW") == 1 then
 		DEFAULT_CHAT_FRAME:AddMessage("Raw GUID logging enabled.", info.r, info.g, info.b, info.id);
 	else
@@ -84,53 +72,59 @@ function CombatLogGUID(on)
 	end
 end
 
+-- HOOKS --
+SuperAPI.SetItemRefOriginal = SetItemRef
+SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
+SuperAPI.SetItemButtonCountOriginal = SetItemButtonCount
+SuperAPI.SetActionOriginal = GameTooltip.SetAction
+SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
+SuperAPI.UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
+
 -- Global function to get a spell link from its exact id
-function GetSpellLink(id)
+SuperAPI.GetSpellLink = function(id)
 	local spellname = SpellInfo(id)
-	local link = "\124cffffffff\124Hspell:"..id.."\124h["..spellname.."]\124h\124r"
+	local link = "\124cffffffff\124Hspell:" .. id .. "\124h[" .. spellname .. "]\124h\124r"
 	return link
 end
 
-
-
 -- reformat "Enchant" itemlinks to better supported "Spell" itemlinks
-function SUPERAPIHOOK_SetItemRef(link, text, button)
+SuperAPI.SetItemRef = function(link, text, button)
 	link = gsub(link, "enchant:", "spell:")
-	SUPERAPIHOOK_SetItemRefOriginal(link, text, button)
+	SuperAPI.SetItemRefOriginal(link, text, button)
 end
 
 -- hooking spellbook frame to get a spell link on shift clicking a spell's button with chatframe open
-function SUPERAPIHOOK_SpellButton_OnClick(drag)
-	if ( (not drag) and IsShiftKeyDown() and ChatFrameEditBox:IsVisible() and (not MacroFrame or not MacroFrame:IsVisible())) then
+SuperAPI.SpellButton_OnClick = function(drag)
+	if ((not drag) and IsShiftKeyDown() and ChatFrameEditBox:IsVisible() and (not MacroFrame or not MacroFrame:IsVisible())) then
 		local bookId = SpellBook_GetSpellID(this:GetID());
-		local _,_, spellID = GetSpellName(bookId, SpellBookFrame.bookType)
+		local _, _, spellID = GetSpellName(bookId, SpellBookFrame.bookType)
 		local link = GetSpellLink(spellID)
 		ChatFrameEditBox:Insert(link)
 	else
-		SUPERAPIHOOK_SpellButton_OnClickOriginal(drag)
+		SuperAPI.SpellButton_OnClickOriginal(drag)
 	end
 end
 
 -- hooking bags item button frames to show uses count
-function SUPERAPIHOOK_SetItemButtonCount(button, count)
+SuperAPI.SetItemButtonCount = function(button, count)
 	if not button or not count then
-		return SUPERAPIHOOK_SetItemButtonCountOriginal(button, count)
+		return SuperAPI.SetItemButtonCountOriginal(button, count)
 	end
 	if (count < 0) then
-		if ( count < -999 ) then
+		if (count < -999) then
 			count = "*";
 		end
-		getglobal(button:GetName().."Count"):SetText(-count);
-		getglobal(button:GetName().."Count"):Show();
-		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormalYellow);
+		getglobal(button:GetName() .. "Count"):SetText(-count);
+		getglobal(button:GetName() .. "Count"):Show();
+		getglobal(button:GetName() .. "Count"):SetFontObject(NumberFontNormalYellow);
 	else
-		getglobal(button:GetName().."Count"):SetFontObject(NumberFontNormal);
-		SUPERAPIHOOK_SetItemButtonCountOriginal(button, count)
+		getglobal(button:GetName() .. "Count"):SetFontObject(NumberFontNormal);
+		SuperAPI.SetItemButtonCountOriginal(button, count)
 	end
 end
 
 -- hooking actionbutton tooltip to show item tooltip on macros
-function SUPERAPIHOOK_SetAction(this, buttonID)
+SuperAPI.SetAction = function(this, buttonID)
 	--local name, actiontype, macroID = GetActionText(buttonID)
 	--if actiontype == "MACRO" then
 	--	local _,_, body = GetMacroInfo(macroID)
@@ -144,16 +138,16 @@ function SUPERAPIHOOK_SetAction(this, buttonID)
 	--	end
 	--end
 	--
-	return SUPERAPIHOOK_SetActionOriginal(this, buttonID)
+	return SuperAPI.SetActionOriginal(this, buttonID)
 end
 
 -- Add Mouseover casting to default blizzard unitframes and all unitframe addons that use the same function
-function SUPERAPIHOOK_UnitFrame_OnEnter()
-	SUPERAPIHOOK_UnitFrame_OnEnterOriginal()
+SuperAPI.UnitFrame_OnEnter = function()
+	SuperAPI.UnitFrame_OnEnterOriginal()
 	SetMouseoverUnit(this.unit)
 end
 
-function SUPERAPIHOOK_UnitFrame_OnLeave()
-	SUPERAPIHOOK_UnitFrame_OnLeaveOriginal()
+SuperAPI.UnitFrame_OnLeave = function()
+	SuperAPI.UnitFrame_OnLeaveOriginal()
 	SetMouseoverUnit()
 end
