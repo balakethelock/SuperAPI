@@ -10,6 +10,13 @@ SuperAPI.AUTOLOOT_OPTIONS = {
 	"Shift to toggle off",
 }
 
+SuperAPI.SELECTION_CIRCLE_STYLE = {
+	"Default - incomplete circle",
+	"Full circle (must download texture)",
+	"Full circle with arrow for facing direction (must download texture)",
+	"Classic incomplete circle oriented in facing direction",
+}
+
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
 	clickthrough = true,
@@ -75,15 +82,94 @@ SuperAPI.cmdtable = {
 				return Clickthrough() == 1
 			end,
 			set = function(v)
-				Clickthrough(v)
+				if v == true then
+					Clickthrough(1)
+				else
+					Clickthrough(0)
+				end
 				SuperAPI.db.profile.clickthrough = v
+			end,
+		},
+		fov = {
+			type = "range",
+			name = "Field of view (Requires reload)",
+			desc = "Changes the field of view of the game.  Requires reload to take effect.",
+			order = 30,
+			min = 0.1,
+			max = 3.14,
+			step = 0.05,
+			get = function()
+				return GetCVar("FoV")
+			end,
+			set = function(v)
+				SetCVar("FoV", v)
+			end,
+		},
+		selectioncircle = {
+			type = "text",
+			name = "Selection circle style",
+			desc = "Changes the style of the selection circle.",
+			order = 40,
+			validate = SuperAPI.SELECTION_CIRCLE_STYLE,
+			get = function()
+				local selectioncircle = GetCVar("SelectionCircleStyle")
+				if selectioncircle then
+					return SuperAPI.SELECTION_CIRCLE_STYLE[tonumber(selectioncircle)]
+				end
+			end,
+			set = function(v)
+				if v == SuperAPI.SELECTION_CIRCLE_STYLE[1] then
+					SetCVar("SelectionCircleStyle", "1")
+				elseif v == SuperAPI.SELECTION_CIRCLE_STYLE[2] then
+					SetCVar("SelectionCircleStyle", "2")
+				elseif v == SuperAPI.SELECTION_CIRCLE_STYLE[3] then
+					SetCVar("SelectionCircleStyle", "3")
+				elseif v == SuperAPI.SELECTION_CIRCLE_STYLE[4] then
+					SetCVar("SelectionCircleStyle", "4")
+				end
+			end,
+		},
+		backgroundsound = {
+			type = "toggle",
+			name = "Background sound",
+			desc = "Allows game sound to play even when the window is in the background.",
+			order = 60,
+			get = function()
+				return GetCVar("BackgroundSound") == "1"
+			end,
+			set = function(v)
+				if v == true then
+					SetCVar("BackgroundSound", "1")
+				else
+					SetCVar("BackgroundSound", "0")
+				end
+			end,
+		},
+		uncappedsounds = {
+			type = "toggle",
+			name = "Uncapped sounds",
+			desc = "Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off.",
+			order = 70,
+			get = function()
+				return GetCVar("UncapSounds") == "1"
+			end,
+			set = function(v)
+				if v == true then
+					SetCVar("UncapSounds", "1")
+					SetCVar("SoundSoftwareChannels", "64")
+					SetCVar("SoundMaxHardwareChannels", "64")
+				else
+					SetCVar("UncapSounds", "0")
+					SetCVar("SoundSoftwareChannels", "12")
+					SetCVar("SoundMaxHardwareChannels", "12")
+				end
 			end,
 		},
 		guidcombatlog = {
 			type = "toggle",
 			name = "GUID Combat Log",
 			desc = "Changes the combat log to print GUIDs instead of names, will break a lot of addons.",
-			order = 30,
+			order = 80,
 			get = function()
 				return LoggingCombat("RAW") == 1
 			end,
