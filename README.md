@@ -1,10 +1,14 @@
-### Optional addon. It is recommended for addon makers to read this to get a gift of some of the mod's features
+### Addon to allow compability between the mod and vanilla default interface. Also adds a minimap icon to change some mod settings. It is recommended for addon makers to read this to get a gist of some of the mod's features
 
 ### Settings
 Right click the minimap icon to choose persistent options for:
 - Autoloot
 - Clickthrough
 - GUID in combat log/events
+- FoV
+- Background Sound
+- Uncapped Sounds
+- Targetting circle style
 
 **NOTE: If using Vanilla Tweaks quickloot all of the Autoloot options will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc).**
 
