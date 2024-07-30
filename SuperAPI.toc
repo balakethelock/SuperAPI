@@ -5,14 +5,21 @@
 ## SavedVariablesPerCharacter: SuperAPIDB
 ## X-Embeds: Ace2, FuBarPlugin-2.0, CompostLib, DewDropLib, TabletLib
 
-Libs\AceLibrary\AceLibrary.lua
-Libs\AceOO-2.0\AceOO-2.0.lua
-Libs\AceAddon-2.0\AceAddon-2.0.lua
-Libs\AceDB-2.0\AceDB-2.0.lua
-Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
-Libs\Dewdrop\Dewdrop-2.0.lua
-Libs\Tablet\Tablet-2.0.lua
-Libs\FuBarPlugin\FuBarPlugin-2.0.lua
+libs\AceLibrary\AceLibrary.lua
+
+libs\AceOO-2.0\AceOO-2.0.lua
+libs\AceAddon-2.0\AceAddon-2.0.lua
+libs\AceConsole-2.0\AceConsole-2.0.lua
+libs\AceHook-2.1\AceHook-2.1.lua
+libs\AceDB-2.0\AceDB-2.0.lua
+libs\AceDebug-2.0\AceDebug-2.0.lua
+libs\AceEvent-2.0\AceEvent-2.0.lua
+libs\AceLocale-2.2\AceLocale-2.2.lua
+libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
+
+libs\Dewdrop\Dewdrop-2.0.lua
+libs\Tablet\Tablet-2.0.lua
+libs\FuBarPlugin\FuBarPlugin-2.0.lua
 
 SuperAPI.lua
 SuperAPIOptions.lua
