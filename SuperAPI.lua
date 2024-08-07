@@ -98,7 +98,7 @@ SuperAPI.SpellButton_OnClick = function(drag)
 	if ((not drag) and IsShiftKeyDown() and ChatFrameEditBox:IsVisible() and (not MacroFrame or not MacroFrame:IsVisible())) then
 		local bookId = SpellBook_GetSpellID(this:GetID());
 		local _, _, spellID = GetSpellName(bookId, SpellBookFrame.bookType)
-		local link = GetSpellLink(spellID)
+		local link = SuperAPI.GetSpellLink(spellID)
 		ChatFrameEditBox:Insert(link)
 	else
 		SuperAPI.SpellButton_OnClickOriginal(drag)
