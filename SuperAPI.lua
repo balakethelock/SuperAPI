@@ -19,6 +19,13 @@ function SuperAPI:OnEnable()
 	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = "Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads.";
 	PARTY_CHAT_BUBBLES_TEXT = "Show Whisper and Group Chat Bubbles";
 
+	SuperAPI.SetItemRefOriginal = SetItemRef
+	SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
+	SuperAPI.SetItemButtonCountOriginal = SetItemButtonCount
+	SuperAPI.SetActionOriginal = GameTooltip.SetAction
+	SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
+	SuperAPI.UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
+
 	-- activate hooks
 	SetItemRef = SuperAPI.SetItemRef
 	SpellButton_OnClick = SuperAPI.SpellButton_OnClick
@@ -73,13 +80,6 @@ function SuperAPI:CombatLogGUID(on)
 end
 
 -- HOOKS --
-SuperAPI.SetItemRefOriginal = SetItemRef
-SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
-SuperAPI.SetItemButtonCountOriginal = SetItemButtonCount
-SuperAPI.SetActionOriginal = GameTooltip.SetAction
-SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
-SuperAPI.UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
-
 -- Global function to get a spell link from its exact id
 SuperAPI.GetSpellLink = function(id)
 	local spellname = SpellInfo(id)
