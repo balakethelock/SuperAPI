@@ -1,6 +1,7 @@
 ## Interface: 11200
-## Title: SuperAPI |cFFFF8080-balake-|r
+## Title: [|CFF33AAFFSUPERWOW|R] SuperAPI |cFFFF8080-balake-|r
 ## Notes: the companion compatibility addon to the mod of the same name.
+## Notes-zhCN: SuperWoW的配套兼容性插件。
 ## Author: balake
 ## SavedVariablesPerCharacter: SuperAPIDB
 ## X-Embeds: Ace2, FuBarPlugin-2.0, CompostLib, DewDropLib, TabletLib
@@ -21,5 +22,6 @@ libs\Dewdrop\Dewdrop-2.0.lua
 libs\Tablet\Tablet-2.0.lua
 libs\FuBarPlugin\FuBarPlugin-2.0.lua
 
+Localization.lua
 SuperAPI.lua
 SuperAPIOptions.lua
