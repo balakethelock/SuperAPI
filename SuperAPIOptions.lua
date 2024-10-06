@@ -19,7 +19,7 @@ SuperAPI.SELECTION_CIRCLE_STYLE = {
 
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
-	clickthrough = true,
+	clickthrough = false,
 	guidcombatlog = false,
 })
 
