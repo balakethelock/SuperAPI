@@ -20,7 +20,7 @@ function SuperAPI:OnEnable()
 	PARTY_CHAT_BUBBLES_TEXT = "Show Whisper and Group Chat Bubbles";
 
 	SuperAPI.SetItemRefOriginal = SetItemRef
-	SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
+	-- SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick --- Fixes spell linking in chat as a bugfix workaround specific to Turtle WoW
 	SuperAPI.SetItemButtonCountOriginal = SetItemButtonCount
 	SuperAPI.SetActionOriginal = GameTooltip.SetAction
 	SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
@@ -28,7 +28,7 @@ function SuperAPI:OnEnable()
 
 	-- activate hooks
 	SetItemRef = SuperAPI.SetItemRef
-	SpellButton_OnClick = SuperAPI.SpellButton_OnClick
+	-- SpellButton_OnClick = SuperAPI.SpellButton_OnClick --- Fixes spell linking in chat as a bugfix workaround specific to Turtle WoW
 	SetItemButtonCount = SuperAPI.SetItemButtonCount
 	GameTooltip.SetAction = SuperAPI.SetAction
 	UnitFrame_OnEnter = SuperAPI.UnitFrame_OnEnter
