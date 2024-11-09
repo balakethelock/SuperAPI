@@ -1,0 +1,68 @@
+local L = AceLibrary("AceLocale-2.2"):new("SuperAPI")
+
+L:RegisterTranslations("enUS", function() return {
+    ["%d/511 Characters Used"] = true,
+    ["Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads."] = true,
+    ["Show Whisper and Group Chat Bubbles"] = true,
+    ["|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options."] = true,
+    ["Raw GUID logging enabled."] = true,
+    ["Raw GUID logging disabled."] = true,
+
+    ["Always on"] = true,
+    ["Always off"] = true,
+	["Shift to toggle on"] = true,
+	["Shift to toggle off"] = true,
+    ["Default - incomplete circle"] = true,
+	["Full circle (must download texture)"] = true,
+	["Full circle with arrow for facing direction (must download texture)"] = true,
+	["Classic incomplete circle oriented in facing direction"] = true,
+    ["Autoloot (Read tooltip)"] = true,
+    ["Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc)."] = true,
+	["Clickthrough corpses"] = true,
+    ["Allows you to click through corpses to loot corpses underneath them."] = true,
+    ["Field of view (Requires reload)"] = true,
+    ["Changes the field of view of the game.  Requires reload to take effect."] = true,
+    ["Selection circle style"] = true,
+    ["Changes the style of the selection circle."] = true,
+    ["Background sound"] = true,
+    ["Allows game sound to play even when the window is in the background."] = true,
+    ["Uncapped sounds"] = true,
+    ["Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off."] = true,
+    ["GUID Combat Log"] = true,
+    ["Changes the combat log to print GUIDs instead of names, will break a lot of addons."] = true,
+    }
+end)
+
+
+L:RegisterTranslations("zhCN", function() return {
+    ["%d/511 Characters Used"] = "已使用 %d/511 个字符",
+    ["Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads."] = "显示密语、小队、团队和战场聊天文本在角色头顶的气泡中。",
+    ["Show Whisper and Group Chat Bubbles"] = "显示密语和团队聊天气泡",
+    ["|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options."] = "|cffffcc00SuperAPI|cffffaaaa 已加载。使用小地图图标配置选项。",
+    ["Raw GUID logging enabled."] = "原始 GUID 日志记录已启用。",
+    ["Raw GUID logging disabled."] = "原始 GUID 日志记录已禁用。",
+
+    ["Always on"] = "始终开启",
+    ["Always off"] = "始终关闭",
+	["Shift to toggle on"] = "按Shift键开启",
+	["Shift to toggle off"] = "按Shift键关闭",
+    ["Default - incomplete circle"] = "默认 - 不完整的圆，只显示视角方向的部分",
+	["Full circle (must download texture)"] = "完整圆形（必须下载纹理）",
+	["Full circle with arrow for facing direction (must download texture)"] = "带箭头指示方向的完整圆形（必须下载纹理）",
+	["Classic incomplete circle oriented in facing direction"] = "经典不完整圆形，朝向方向",
+    ["Autoloot (Read tooltip)"] = "自动拾取",
+    ["Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc)."] = "指定自动拾取行为。如果已使用Vanilla-Tweaks快速拾取，这些设置将会相反（开启自动拾取将会是不自动拾取，按Shift键开启将会是按Shift键关闭等）。",
+	["Clickthrough corpses"] = "点击穿透尸体",
+    ["Allows you to click through corpses to loot corpses underneath them."] = "允许你点击穿透尸体以拾取下面的尸体。",
+    ["Field of view (Requires reload)"] = "视野范围（需要重载）",
+    ["Changes the field of view of the game.  Requires reload to take effect."] = "改变游戏的视野范围。需要重载才能生效。",
+    ["Selection circle style"] = "选择目标脚下光圈样式",
+    ["Changes the style of the selection circle."] = "改变目标光圈的样式。",
+    ["Background sound"] = "背景声音",
+    ["Allows game sound to play even when the window is in the background."] = "即使窗口位于后台，也允许游戏声音播放。",
+    ["Uncapped sounds"] = "无限制声音",
+    ["Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off."] = "通过移除硬编码限制，允许更多游戏声音同时播放。这也将设置SoundSoftwareChannels和SoundMaxHardwareChannels为64。如果你遇到任何奇怪的崩溃，你可能想要关闭这个。",
+    ["GUID Combat Log"] = "GUID战斗日志",
+    ["Changes the combat log to print GUIDs instead of names, will break a lot of addons."] = "将战斗日志更改为打印GUID而不是名称，将会破坏很多插件。",
+    }
+end)
