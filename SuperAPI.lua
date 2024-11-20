@@ -83,7 +83,8 @@ end
 -- reformat "Enchant" itemlinks to better supported "Spell" itemlinks
 function SuperAPI:SetItemRef(link, text, button)
 	link = gsub(link, "spell:", "enchant:")
-	SuperAPI.hooks['SetItemRef'](link, text, button)
+
+	SuperAPI.hooks.SetItemRef(link, text, button)
 end
 
 -- hooking spellbook frame to get a spell link on shift clicking a spell's button with chatframe open
@@ -91,17 +92,17 @@ function SuperAPI:SpellButton_OnClick(drag)
 	if ((not drag) and IsShiftKeyDown() and ChatFrameEditBox:IsVisible() and (not MacroFrame or not MacroFrame:IsVisible())) then
 		local bookId = SpellBook_GetSpellID(this:GetID());
 		local _, _, spellID = GetSpellName(bookId, SpellBookFrame.bookType)
-		local link = SuperAPI.GetSpellLink(spellID)
+		local link = SuperAPI:GetSpellLink(spellID)
 		ChatFrameEditBox:Insert(link)
 	else
-		SuperAPI.hooks['SpellButton_OnClick'](drag)
+		SuperAPI.hooks.SpellButton_OnClick(drag)
 	end
 end
 
 -- hooking bags item button frames to show uses count
 function SuperAPI:SetItemButtonCount(button, count)
 	if not button or not count then
-		return SuperAPI.hooks['SetItemButtonCount'](button, count)
+		return SuperAPI.hooks.SetItemButtonCount(button, count)
 	end
 	if (count < 0) then
 		if (count < -999) then
@@ -112,7 +113,7 @@ function SuperAPI:SetItemButtonCount(button, count)
 		getglobal(button:GetName() .. "Count"):SetFontObject(NumberFontNormalYellow);
 	else
 		getglobal(button:GetName() .. "Count"):SetFontObject(NumberFontNormal);
-		SuperAPI.hooks['SetItemButtonCount'](button, count)
+		SuperAPI.hooks.SetItemButtonCount(button, count)
 	end
 end
 
@@ -131,16 +132,16 @@ function SuperAPI:SetAction(this, buttonID)
 	--	end
 	--end
 	--
-	return SuperAPI.hooks[GameTooltip]['SetAction'](this, buttonID)
+	return SuperAPI.hooks[GameTooltip].SetAction(this, buttonID)
 end
 
 -- Add Mouseover casting to default blizzard unitframes and all unitframe addons that use the same function
 	function SuperAPI:UnitFrame_OnEnter()
-	SuperAPI.hooks['UnitFrame_OnEnter']()
+	SuperAPI.hooks.UnitFrame_OnEnter()
 	SetMouseoverUnit(this.unit)
 end
 
 function SuperAPI:UnitFrame_OnLeave()
-	SuperAPI.hooks['UnitFrame_OnLeave']()
+	SuperAPI.hooks.UnitFrame_OnLeave()
 	SetMouseoverUnit()
 end
