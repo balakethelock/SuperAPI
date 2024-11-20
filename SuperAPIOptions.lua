@@ -23,7 +23,7 @@ SuperAPI:RegisterDefaults("profile", {
 	guidcombatlog = false,
 })
 
-SuperAPI.IfShiftAutoloot = function()
+function SuperAPI:IfShiftAutoloot()
 	if IsShiftKeyDown() then
 		SetAutoloot(1)
 	else
@@ -31,7 +31,7 @@ SuperAPI.IfShiftAutoloot = function()
 	end
 end
 
-SuperAPI.IfShiftNoAutoloot = function()
+function SuperAPI:IfShiftNoAutoloot()
 	if IsShiftKeyDown() then
 		SetAutoloot(0)
 	else
@@ -57,19 +57,19 @@ SuperAPI.cmdtable = {
 				if v == SuperAPI.AUTOLOOT_OPTIONS[1] then
 					-- "Always on"
 					SetAutoloot(1)
-					SuperAPI.frame:SetScript("OnUpdate", nil)
+					SuperAPI:CancelScheduledEvent('SuperAPIAutoloot')
 				elseif v == SuperAPI.AUTOLOOT_OPTIONS[2] then
 					-- "Always off"
 					SetAutoloot(0)
-					SuperAPI.frame:SetScript("OnUpdate", nil)
+					SuperAPI:CancelScheduledEvent('SuperAPIAutoloot')
 				elseif v == SuperAPI.AUTOLOOT_OPTIONS[3] then
 					-- "Shift to toggle on"
 					SetAutoloot(0)
-					SuperAPI.frame:SetScript("OnUpdate", SuperAPI.IfShiftAutoloot)
+					SuperAPI:ScheduleRepeatingEvent('SuperAPIAutoloot',SuperAPI.IfShiftAutoloot, 1/10)
 				elseif v == SuperAPI.AUTOLOOT_OPTIONS[4] then
 					-- "Shift to toggle off"
 					SetAutoloot(1)
-					SuperAPI.frame:SetScript("OnUpdate", SuperAPI.IfShiftNoAutoloot)
+					SuperAPI:ScheduleRepeatingEvent('SuperAPIAutoloot',SuperAPI.IfShiftNoAutoloot, 1/10)
 				end
 			end,
 		},
