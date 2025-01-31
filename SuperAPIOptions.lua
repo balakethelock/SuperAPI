@@ -20,7 +20,6 @@ SuperAPI.SELECTION_CIRCLE_STYLE = {
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
 	clickthrough = false,
-	guidcombatlog = false,
 })
 
 SuperAPI.IfShiftAutoloot = function()
@@ -165,21 +164,20 @@ SuperAPI.cmdtable = {
 				end
 			end,
 		},
-		guidcombatlog = {
+		lootsparkle = {
 			type = "toggle",
-			name = "GUID Combat Log",
-			desc = "Changes the combat log to print GUIDs instead of names, will break a lot of addons.",
+			name = "Loot Sparkle",
+			desc = "Toggle loot sparkle effect on lootable treasure.",
 			order = 80,
 			get = function()
-				return LoggingCombat("RAW") == 1
+				return GetCVar("LootSparkle") == "1"
 			end,
 			set = function(v)
 				if v == true then
-					LoggingCombat("RAW", 1)
+					SetCVar("LootSparkle", "1")
 				else
-					LoggingCombat("RAW", 0)
+					SetCVar("LootSparkle", "0")
 				end
-				SuperAPI.db.profile.guidcombatlog = v
 			end,
 		},
 	}
@@ -209,5 +207,4 @@ function SuperAPIOptions:OnEnable()
 	-- activate saved settings
 	SuperAPI.cmdtable.args.autoloot.set(SuperAPI.db.profile.autoloot)
 	SuperAPI.cmdtable.args.clickthrough.set(SuperAPI.db.profile.clickthrough)
-	SuperAPI.cmdtable.args.guidcombatlog.set(SuperAPI.db.profile.guidcombatlog)
 end
