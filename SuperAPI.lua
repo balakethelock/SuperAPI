@@ -28,6 +28,7 @@ function SuperAPI:OnEnable()
 	SuperAPI.SetActionOriginal = GameTooltip.SetAction
 	SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
 	SuperAPI.UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
+	SuperAPI.CombatText_AddMessageOriginal = CombatText_AddMessage
 
 	-- activate hooks
 	SetItemRef = SuperAPI.SetItemRef
@@ -36,6 +37,8 @@ function SuperAPI:OnEnable()
 	GameTooltip.SetAction = SuperAPI.SetAction
 	UnitFrame_OnEnter = SuperAPI.UnitFrame_OnEnter
 	UnitFrame_OnLeave = SuperAPI.UnitFrame_OnLeave
+	CombatText_AddMessage = SuperAPI.CombatText_AddMessage
+	
 
 	SuperAPI.frame:RegisterEvent("BAG_UPDATE")
 	SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
@@ -136,4 +139,13 @@ end
 SuperAPI.UnitFrame_OnLeave = function()
 	SuperAPI.UnitFrame_OnLeaveOriginal()
 	SetMouseoverUnit()
+end
+
+-- Fix scrolling combat text healer name
+SuperAPI.CombatText_AddMessage = function(message, scrollFunction, r, g, b, displayType, isStaggered)
+	local newMessage = gsub(message, "(%s%[)(0x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x)(%])", function(bracket1, hex, bracket2)
+		if UnitIsUnit(hex, "player") then return nil
+		else return " ["..UnitName(hex).."]" end
+	end)
+	return SuperAPI.CombatText_AddMessageOriginal(newMessage, scrollFunction, r, g, b, displayType, isStaggered)
 end
