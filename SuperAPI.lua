@@ -65,23 +65,6 @@ function SuperAPI:OnEvent()
 	end
 end
 
--- Function to toggle raw combat log mode (Print unit guid instead of unit name in combat log)
--- the actual function is LoggingCombat("RAW", toggle), this is just a helper function to simply it. Note LoggingCombat(toggle) is still used the old way to turn on writing into text file.
-function SuperAPI:CombatLogGUID(on)
-	local info = ChatTypeInfo["SYSTEM"];
-	if on then
-		LoggingCombat("RAW", on)
-	else
-		LoggingCombat("RAW", LoggingCombat("RAW") == 0)
-	end
-
-	if LoggingCombat("RAW") == 1 then
-		DEFAULT_CHAT_FRAME:AddMessage("Raw GUID logging enabled.", info.r, info.g, info.b, info.id);
-	else
-		DEFAULT_CHAT_FRAME:AddMessage("Raw GUID logging disabled.", info.r, info.g, info.b, info.id);
-	end
-end
-
 -- HOOKS --
 -- Global function to get a spell link from its exact id
 SuperAPI.GetSpellLink = function(id)
