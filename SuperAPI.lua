@@ -40,8 +40,8 @@ function SuperAPI:OnEnable()
 	CombatText_AddMessage = SuperAPI.CombatText_AddMessage
 	
 
-	SuperAPI.frame:RegisterEvent("BAG_UPDATE")
-	SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE")
+	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 	SuperAPI.frame:SetScript("OnEvent", SuperAPI.OnEvent)
 
 	-- this chatcommand is empty. It is essential for showing tooltips of macros
