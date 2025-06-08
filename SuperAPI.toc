@@ -21,5 +21,6 @@ libs\Dewdrop\Dewdrop-2.0.lua
 libs\Tablet\Tablet-2.0.lua
 libs\FuBarPlugin\FuBarPlugin-2.0.lua
 
+Localization.lua
 SuperAPI.lua
 SuperAPIOptions.lua

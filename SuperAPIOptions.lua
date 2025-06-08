@@ -3,18 +3,20 @@ if not SetAutoloot then
 	return
 end
 
+local L = AceLibrary("AceLocale-2.2"):new("SuperAPI")
+
 SuperAPI.AUTOLOOT_OPTIONS = {
-	"Always on",
-	"Always off",
-	"Shift to toggle on",
-	"Shift to toggle off",
+	L["Always on"],
+	L["Always off"],
+	L["Shift to toggle on"],
+	L["Shift to toggle off"],
 }
 
 SuperAPI.SELECTION_CIRCLE_STYLE = {
-	"Default - incomplete circle",
-	"Full circle (must download texture)",
-	"Full circle with arrow for facing direction (must download texture)",
-	"Classic incomplete circle oriented in facing direction",
+	L["Default - incomplete circle"],
+	L["Full circle (must download texture)"],
+	L["Full circle with arrow for facing direction (must download texture)"],
+	L["Classic incomplete circle oriented in facing direction"],
 }
 
 SuperAPI:RegisterDefaults("profile", {
@@ -44,8 +46,8 @@ SuperAPI.cmdtable = {
 	args = {
 		autoloot = {
 			type = "text",
-			name = "Autoloot (Read tooltip)",
-			desc = "Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc).",
+			name = L["Autoloot (Read tooltip)"],
+			desc = L["Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc)."],
 			order = 10,
 			validate = SuperAPI.AUTOLOOT_OPTIONS,
 			get = function()
@@ -74,8 +76,8 @@ SuperAPI.cmdtable = {
 		},
 		clickthrough = {
 			type = "toggle",
-			name = "Clickthrough corpses",
-			desc = "Allows you to click through corpses to loot corpses underneath them.",
+			name = L["Clickthrough corpses"],
+			desc = L["Allows you to click through corpses to loot corpses underneath them."],
 			order = 20,
 			get = function()
 				return Clickthrough() == 1
@@ -91,8 +93,8 @@ SuperAPI.cmdtable = {
 		},
 		fov = {
 			type = "range",
-			name = "Field of view (Requires reload)",
-			desc = "Changes the field of view of the game.  Requires reload to take effect.",
+			name = L["Field of view (Requires reload)"],
+			desc = L["Changes the field of view of the game.  Requires reload to take effect."],
 			order = 30,
 			min = 0.1,
 			max = 3.14,
@@ -106,8 +108,8 @@ SuperAPI.cmdtable = {
 		},
 		selectioncircle = {
 			type = "text",
-			name = "Selection circle style",
-			desc = "Changes the style of the selection circle.",
+			name = L["Selection circle style"],
+			desc = L["Changes the style of the selection circle."],
 			order = 40,
 			validate = SuperAPI.SELECTION_CIRCLE_STYLE,
 			get = function()
@@ -130,8 +132,8 @@ SuperAPI.cmdtable = {
 		},
 		backgroundsound = {
 			type = "toggle",
-			name = "Background sound",
-			desc = "Allows game sound to play even when the window is in the background.",
+			name = L["Background sound"],
+			desc = L["Allows game sound to play even when the window is in the background."],
 			order = 60,
 			get = function()
 				return GetCVar("BackgroundSound") == "1"
@@ -146,8 +148,8 @@ SuperAPI.cmdtable = {
 		},
 		uncappedsounds = {
 			type = "toggle",
-			name = "Uncapped sounds",
-			desc = "Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off.",
+			name = L["Uncapped sounds"],
+			desc = L["Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off."],
 			order = 70,
 			get = function()
 				return GetCVar("UncapSounds") == "1"
@@ -166,8 +168,8 @@ SuperAPI.cmdtable = {
 		},
 		lootsparkle = {
 			type = "toggle",
-			name = "Loot Sparkle",
-			desc = "Toggle loot sparkle effect on lootable treasure.",
+			name = L["Loot Sparkle"],
+			desc = L["Toggle loot sparkle effect on lootable treasure."],
 			order = 80,
 			get = function()
 				return GetCVar("LootSparkle") == "1"
@@ -183,12 +185,12 @@ SuperAPI.cmdtable = {
 	}
 }
 
-local deuce = SuperAPI:NewModule("SuperAPI Options Menu")
+local deuce = SuperAPI:NewModule(L["SuperAPI Options Menu"])
 deuce.hasFuBar = IsAddOnLoaded("FuBar") and FuBar
 deuce.consoleCmd = not deuce.hasFuBar
 
 SuperAPIOptions = AceLibrary("AceAddon-2.0"):new("AceDB-2.0", "FuBarPlugin-2.0")
-SuperAPIOptions.name = "FuBar - SuperAPI"
+SuperAPIOptions.name = L["FuBar - SuperAPI"]
 SuperAPIOptions:RegisterDB("SuperAPIDB")
 SuperAPIOptions.hasIcon = "Interface\\Icons\\inv_misc_book_06"
 SuperAPIOptions.defaultMinimapPosition = 180

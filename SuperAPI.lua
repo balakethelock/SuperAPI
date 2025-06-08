@@ -1,6 +1,8 @@
+local L = AceLibrary("AceLocale-2.2"):new("SuperAPI")
+
 -- No superwow, no superapi
 if not SUPERWOW_VERSION then
-	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected");
+	DEFAULT_CHAT_FRAME:AddMessage(L["No SuperWoW detected"]);
 	-- this version of SuperAPI is made for SuperWoW 1.2
 	-- can somebody make this warning better?
 	return
@@ -16,11 +18,11 @@ function SuperAPI:OnEnable()
 	-- Let macro frame allow 511 characters
 	MacroFrame_LoadUI();
 	MacroFrameText:SetMaxLetters(511);
-	MACROFRAME_CHAR_LIMIT = "%d/511 Characters Used";
+	MACROFRAME_CHAR_LIMIT = L["%d/511 Characters Used"];
 
 	-- Change chat bubbles options name
-	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = "Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads.";
-	PARTY_CHAT_BUBBLES_TEXT = "Show Whisper and Group Chat Bubbles";
+	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = L["Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads."];
+	PARTY_CHAT_BUBBLES_TEXT = L["Show Whisper and Group Chat Bubbles"];
 
 	SuperAPI.SetItemRefOriginal = SetItemRef
 	SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
@@ -49,7 +51,7 @@ function SuperAPI:OnEnable()
 	SLASH_MACROTOOLTIP1 = "/tooltip"
 	SlashCmdList["MACROTOOLTIP"] = function(cmd)
 	end
-	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options.")
+	DEFAULT_CHAT_FRAME:AddMessage(L["|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options."])
 end
 
 function SuperAPI:OnEvent()
