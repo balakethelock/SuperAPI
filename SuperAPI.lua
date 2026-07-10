@@ -1,8 +1,8 @@
 -- No superwow, no superapi
-if not SUPERWOW_VERSION then
-	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected");
-	-- this version of SuperAPI is made for SuperWoW 1.2
-	-- can somebody make this warning better?
+local version = tonumber(SUPERWOW_VERSION)
+
+if not version or version < 2.0 then
+	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected. Please download latest version https://github.com/balakethelock/SuperWoW ");
 	return
 end
 
