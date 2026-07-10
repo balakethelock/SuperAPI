@@ -17,6 +17,12 @@ SuperAPI.SELECTION_CIRCLE_STYLE = {
 	"Classic incomplete circle oriented in facing direction",
 }
 
+SuperAPI.NAMEPLATE_MOTION = {
+	"Overlap",
+	"Default spread",
+	"Smart spread",
+}
+
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
 	clickthrough = false,
@@ -178,6 +184,187 @@ SuperAPI.cmdtable = {
 				else
 					SetCVar("LootSparkle", "0")
 				end
+			end,
+		},
+		nameplates = {
+			type = "group",
+			name = "Nameplate Settings",
+			desc = "Group of settings related to Nameplates",
+			order = 90,
+			args = {
+				nameplaterange = {
+				type = "range",
+				name = "Nameplate range",
+				desc = "Changes the range at which Nameplates appear.",
+				order = 1,
+				min = 10,
+				max = 80,
+				step = 1,
+				get = function()
+					return GetCVar("NameplateRange")
+				end,
+				set = function(v)
+					SetCVar("NameplateRange", v)
+				end,
+				},
+				nameplatemotion = {
+				type = "text",
+				name = "Nameplate Motion",
+				desc = "Changes the behavior of moving nameplates.",
+				order = 2,
+				validate = SuperAPI.NAMEPLATE_MOTION,
+				get = function()
+					local nameplatemotionSetting = GetCVar("NameplateMotion")
+					if nameplatemotionSetting then
+						return SuperAPI.NAMEPLATE_MOTION[(tonumber(nameplatemotionSetting))+1]
+					end
+				end,
+				set = function(v)
+					if v == SuperAPI.NAMEPLATE_MOTION[1] then
+						SetCVar("NameplateMotion", "0")
+					elseif v == SuperAPI.NAMEPLATE_MOTION[2] then
+						SetCVar("NameplateMotion", "1")
+					elseif v == SuperAPI.NAMEPLATE_MOTION[3] then
+						SetCVar("NameplateMotion", "2")
+					end
+				end,
+				},
+			}
+		},
+		chatbubbles = {
+			type = "group",
+			name = "Chat Bubble Settings",
+			desc = "Group of settings related to Chat Bubbles that appear above units",
+			order = 100,
+			args = {
+				chatbubblerange = {
+				type = "range",
+				name = "Chat Bubbles range",
+				desc = "Changes the range at which Chat Bubbles appear.",
+				order = 1007,
+				min = 10,
+				max = 200,
+				step = 5,
+				get = function()
+					return GetCVar("ChatBubbleRange")
+				end,
+				set = function(v)
+					SetCVar("ChatBubbleRange", v)
+				end,
+				},
+				togglesay = {
+				type = "toggle",
+				name = "Say Chat Bubbles",
+				desc = "Toggle say and yell chat bubbles on/off",
+				order = 1009,
+				get = function()
+					return GetCVar("ChatBubbles") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubbles", "1")
+					else
+						SetCVar("ChatBubbles", "0")
+					end
+				end,
+				},
+				togglepartybubbles = {
+				type = "toggle",
+				name = "Party Chat Bubbles",
+				desc = "Toggle party chat bubbles on/off",
+				order = 1008,
+				get = function()
+					return GetCVar("ChatBubblesParty") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubblesParty", "1")
+					else
+						SetCVar("ChatBubblesParty", "0")
+					end
+				end,
+				},
+				toggleraidbubbles = {
+				type = "toggle",
+				name = "Raid Chat Bubbles",
+				desc = "Toggle raid chat bubbles on/off",
+				order = 1010,
+				get = function()
+					return GetCVar("ChatBubblesRaid") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubblesRaid", "1")
+					else
+						SetCVar("ChatBubblesRaid", "0")
+					end
+				end,
+				},
+				togglebgbubbles = {
+				type = "toggle",
+				name = "Battleground Chat Bubbles",
+				desc = "Toggle battleground chat bubbles on/off",
+				order = 1020,
+				get = function()
+					return GetCVar("ChatBubblesBattleground") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubblesBattleground", "1")
+					else
+						SetCVar("ChatBubblesBattleground", "0")
+					end
+				end,
+				},
+				togglewhisperbubbles = {
+				type = "toggle",
+				name = "Whisper Chat Bubbles",
+				desc = "Toggle whisper chat bubbles on/off",
+				order = 1030,
+				get = function()
+					return GetCVar("ChatBubblesWhisper") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubblesWhisper", "1")
+					else
+						SetCVar("ChatBubblesWhisper", "0")
+					end
+				end,
+				},
+				togglecreaturebubbles = {
+				type = "toggle",
+				name = "Creature Chat Bubbles",
+				desc = "Toggle chat bubbles on creatures on/off",
+				order = 1040,
+				get = function()
+					return GetCVar("ChatBubblesCreatures") == "1"
+				end,
+				set = function(v)
+					if v == true then
+						SetCVar("ChatBubblesCreatures", "1")
+					else
+						SetCVar("ChatBubblesCreatures", "0")
+					end
+				end,
+				},
+			}
+		},
+		superwowLink = {
+			type = "execute",
+			name = "Support The Project",
+			desc = "All your donations are deeply appreciated! The community support is what keeps SuperWoW going",
+			func = function()
+				local url = "https://ko-fi.com/balakesuperwow"
+
+				if not ChatFrameEditBox:IsVisible() then
+					ChatFrameEditBox:Show()
+				end
+				
+				ChatFrameEditBox:SetText(url)
+				ChatFrameEditBox:SetFocus()
+				ChatFrameEditBox:HighlightText()
+				
 			end,
 		},
 	}
