@@ -186,6 +186,22 @@ SuperAPI.cmdtable = {
 				end
 			end,
 		},
+		healingtext = {
+			type = "toggle",
+			name = "Floating Healing Text",
+			desc = "Toggle display of in-world healing feedback.",
+			order = 85,
+			get = function()
+				return GetCVar("HealingText") == "1"
+			end,
+			set = function(v)
+				if v == true then
+					SetCVar("HealingText", "1")
+				else
+					SetCVar("HealingText", "0")
+				end
+			end,
+		},
 		nameplates = {
 			type = "group",
 			name = "Nameplate Settings",
