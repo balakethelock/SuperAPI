@@ -29,6 +29,7 @@ function SuperAPI:OnEnable()
 	SuperAPI.UnitFrame_OnEnterOriginal = UnitFrame_OnEnter
 	SuperAPI.UnitFrame_OnLeaveOriginal = UnitFrame_OnLeave
 	SuperAPI.CombatText_AddMessageOriginal = CombatText_AddMessage
+	SuperAPI.QuestLogTitleButton_OnClickOriginal = QuestLogTitleButton_OnClick
 
 	-- activate hooks
 	SetItemRef = SuperAPI.SetItemRef
@@ -38,7 +39,13 @@ function SuperAPI:OnEnable()
 	UnitFrame_OnEnter = SuperAPI.UnitFrame_OnEnter
 	UnitFrame_OnLeave = SuperAPI.UnitFrame_OnLeave
 	CombatText_AddMessage = SuperAPI.CombatText_AddMessage
+	QuestLogTitleButton_OnClick = SuperAPI.QuestLogTitleButton_OnClick
 	
+	-- PfQuest compatibility
+	if (pfDatabase.GetQuestIDs) then
+		SuperAPI.pfDatabaseGetQuestIDsOriginal = pfDatabase.GetQuestIDs
+		pfDatabase.GetQuestIDs = SuperAPI.pfDatabaseGetQuestIDs
+	end
 
 	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE")
 	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
@@ -148,4 +155,33 @@ SuperAPI.CombatText_AddMessage = function(message, scrollFunction, r, g, b, disp
 		else return " ["..UnitName(hex).."]" end
 	end)
 	return SuperAPI.CombatText_AddMessageOriginal(newMessage, scrollFunction, r, g, b, displayType, isStaggered)
+end
+
+-- Link quest in chat from Blizzard QuestLog
+SuperAPI.QuestLogTitleButton_OnClick = function(button)
+	local questName = this:GetText();
+	local questIndex = this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+	
+	if ( IsShiftKeyDown() ) then
+		if ( not this.isHeader ) then
+			if ( ChatFrameEditBox:IsVisible() ) then
+				local questLink = GetQuestLink(GetQuestID(questIndex))
+				ChatFrameEditBox:Insert(questLink);
+				return
+			end
+		end
+	end
+	
+	return SuperAPI.QuestLogTitleButton_OnClickOriginal(button)
+end
+
+SuperAPI.pfDatabaseGetQuestIDs = function(pad, qid)
+	if GetQuestID then -- PfQuest compatibility with GetQuestLink & GetQuestID functions
+		local questID = GetQuestID(qid)
+		if questID then
+			return { [1] = questID }
+		end
+	end
+	
+	return SuperAPI.pfDatabaseGetQuestIDsOriginal(pad, qid)
 end
