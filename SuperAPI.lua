@@ -1,7 +1,7 @@
 -- No superwow, no superapi
 local version = tonumber(SUPERWOW_VERSION)
 
-if not version or version < 2.0 then
+if not version or version < 2.1 then
 	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected. Please download latest version https://github.com/balakethelock/SuperWoW ");
 	return
 end
