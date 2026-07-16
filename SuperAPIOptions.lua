@@ -21,6 +21,7 @@ SuperAPI.NAMEPLATE_MOTION = {
 	"Overlap",
 	"Default spread",
 	"Smart spread",
+	"Compact spread",
 }
 
 SuperAPI:RegisterDefaults("profile", {
@@ -97,8 +98,8 @@ SuperAPI.cmdtable = {
 		},
 		fov = {
 			type = "range",
-			name = "Field of view (Requires reload)",
-			desc = "Changes the field of view of the game.  Requires reload to take effect.",
+			name = "Field of view",
+			desc = "Changes the field of view of the game. Requires UI Reload.",
 			order = 30,
 			min = 0.1,
 			max = 3.14,
@@ -242,6 +243,8 @@ SuperAPI.cmdtable = {
 						SetCVar("NameplateMotion", "1")
 					elseif v == SuperAPI.NAMEPLATE_MOTION[3] then
 						SetCVar("NameplateMotion", "2")
+					elseif v == SuperAPI.NAMEPLATE_MOTION[4] then
+						SetCVar("NameplateMotion", "3")
 					end
 				end,
 				},
