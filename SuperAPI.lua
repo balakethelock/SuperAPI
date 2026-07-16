@@ -1,7 +1,7 @@
 -- No superwow, no superapi
 local version = tonumber(SUPERWOW_VERSION)
 
-if not version or version < 2.1 then
+if not version or version < 2.2 then
 	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected. Please download latest version https://github.com/balakethelock/SuperWoW ");
 	return
 end
@@ -41,11 +41,6 @@ function SuperAPI:OnEnable()
 	CombatText_AddMessage = SuperAPI.CombatText_AddMessage
 	QuestLogTitleButton_OnClick = SuperAPI.QuestLogTitleButton_OnClick
 	
-	-- PfQuest compatibility
-	if (pfDatabase.GetQuestIDs) then
-		SuperAPI.pfDatabaseGetQuestIDsOriginal = pfDatabase.GetQuestIDs
-		pfDatabase.GetQuestIDs = SuperAPI.pfDatabaseGetQuestIDs
-	end
 
 	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE")
 	-- SuperAPI.frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
@@ -159,13 +154,12 @@ end
 
 -- Link quest in chat from Blizzard QuestLog
 SuperAPI.QuestLogTitleButton_OnClick = function(button)
-	local questName = this:GetText();
 	local questIndex = this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 	
 	if ( IsShiftKeyDown() ) then
 		if ( not this.isHeader ) then
 			if ( ChatFrameEditBox:IsVisible() ) then
-				local questLink = GetQuestLink(GetQuestID(questIndex))
+				local questLink = GetQuestLinkForLogIndex(questIndex)
 				ChatFrameEditBox:Insert(questLink);
 				return
 			end
@@ -173,15 +167,4 @@ SuperAPI.QuestLogTitleButton_OnClick = function(button)
 	end
 	
 	return SuperAPI.QuestLogTitleButton_OnClickOriginal(button)
-end
-
-SuperAPI.pfDatabaseGetQuestIDs = function(pad, qid)
-	if GetQuestID then -- PfQuest compatibility with GetQuestLink & GetQuestID functions
-		local questID = GetQuestID(qid)
-		if questID then
-			return { [1] = questID }
-		end
-	end
-	
-	return SuperAPI.pfDatabaseGetQuestIDsOriginal(pad, qid)
 end
