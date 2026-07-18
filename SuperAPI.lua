@@ -2,7 +2,29 @@
 local version = tonumber(SUPERWOW_VERSION)
 
 if not version or version < 2.2 then
+	StaticPopupDialogs["UPDATE_SUPERWOW"] = {
+		text = "No SuperWoW detected. Please download latest version.",
+		button1 = "Download",
+		button2 = TEXT(IGNORE),
+		OnAccept = function(data)
+			local url = "https://github.com/balakethelock/SuperWoW/releases/tag/Release"
+			
+			if not ChatFrameEditBox:IsVisible() then
+				ChatFrameEditBox:Show()
+			end
+			
+			ChatFrameEditBox:SetText(url)
+			ChatFrameEditBox:SetFocus()
+			ChatFrameEditBox:HighlightText()
+		end,
+		timeout = 0,
+		exclusive = 1,
+		whileDead = 1,
+		hideOnEscape = 1
+	};
+	
 	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected. Please download latest version https://github.com/balakethelock/SuperWoW ");
+	StaticPopup_Show("UPDATE_SUPERWOW");
 	return
 end
 
