@@ -1,5 +1,5 @@
 -- No superwow, no superapi
-if not SetAutoloot then
+if not SuperAPI then
 	return
 end
 
